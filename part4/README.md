@@ -151,18 +151,18 @@ cat tables.sql | docker exec -i hbnb-mysql mysql -u root -prootpass
 
 ```bash
 # Get all users
-curl http://localhost:5000/api/v1/users
+curl http://127.0.0.1:5001/api/v1/users
 
 # Get all places
-curl http://localhost:5000/api/v1/places
+curl http://127.0.0.1:5001/api/v1/places
 
 # Search places
-curl -X POST "http://localhost:5000/api/v1/places/search" \
+curl -X POST "http://127.0.0.1:5001/api/v1/places/search" \
   -H "Content-Type: application/json" \
   -d '{"name": "cozy", "price": "250", "amenities": ["wi-fi", "toilet"]}'
 
 # Login (get JWT token)
-curl -X POST "http://localhost:5000/api/v1/auth/login" \
+curl -X POST "http://127.0.0.1:5001/api/v1/auth/login" \
   -H "Content-Type: application/json" \
   -d '{"email": "admin@hbnb.io", "password": "admin1234"}'
 ```
@@ -217,7 +217,7 @@ python run_v4.py
 
 2. **Make changes to code** - Flask will auto-reload in debug mode
 
-3. **Test API endpoints** using Swagger UI at http://localhost:5000/swagger
+3. **Test API endpoints** using Swagger UI at http://127.0.0.1:5001/swagger
 
 4. **Stop development environment**:
    ```bash
