@@ -1,2 +1,2 @@
-# holbertonschool-hbnb
+# HBnB Project for Holberton School
 An AirBnB Clone
