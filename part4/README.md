@@ -74,9 +74,9 @@ python run_v4.py
 ```
 
 The application will be available at:
-- **Web Interface**: http://localhost:5000
-- **API Documentation (Swagger)**: http://localhost:5000/swagger
-- **API Base URL**: http://localhost:5000/api/v1/
+- **Web Interface**: http://127.0.0.1:5001
+- **API Documentation (Swagger)**: http://127.0.0.1:5001/swagger
+- **API Base URL**: http://127.0.0.1:5001/api/v1/
 
 ### 4. Default Admin User
 
