@@ -17,6 +17,7 @@
             <nav>
                 <a href="index.html">Home</a>
                 <a href="login.html" class="login-button" id="login-link">Login</a>
+                <a href="#" class="login-button" id="logout-link" style="display: none;" onclick="logout()">Logout</a>
             </nav>
         </div>
     </header>
@@ -38,13 +39,7 @@
                             <option value="500">Under $500</option>
                         </select>
                     </div>
-                    <div class="filter-group">
-                        <label for="country-filter">Country:</label>
-                        <select id="country-filter">
-                            <option value="">All Countries</option>
-                            <!-- Will be populated dynamically -->
-                        </select>
-                    </div>
+                    <!-- Country filter removed as per task requirements - only price filtering needed -->
                 </div>
             </section>
             
