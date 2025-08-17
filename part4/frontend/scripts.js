@@ -491,12 +491,12 @@ function initializePriceFilter() {
  */
 function filterPlacesByPrice(maxPrice) {
     const placeCards = document.querySelectorAll('.place-card');
-    
+
     placeCards.forEach(card => {
         const placePrice = parseFloat(card.getAttribute('data-price'));
-        
+
         if (maxPrice === '' || placePrice <= parseFloat(maxPrice)) {
-            card.style.display = 'block';
+            card.style.display = 'flex';  // Use flex to maintain the card layout
         } else {
             card.style.display = 'none';
         }
