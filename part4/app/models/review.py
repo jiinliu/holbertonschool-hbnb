@@ -20,7 +20,7 @@ class Review(Base):
     place_r = relationship("Place", back_populates="reviews_r")
     user_r = relationship("User", back_populates="reviews_r")
 
-    def __init__(self, text, rating, place_id, user_id):
+    def __init__(self, text=None, rating=None, place_id=None, user_id=None, **kwargs):
         if text is None or rating is None or place_id is None or user_id is None:
             raise ValueError("Required attributes not specified!")
 

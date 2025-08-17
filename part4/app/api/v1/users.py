@@ -33,8 +33,9 @@ class UserList(Resource):
         # a user first. See the problem?!?!?
 
         """Register a new user"""
-        claims = get_jwt()
-        if not claims.get('is_admin', True):
+        current_user_id = get_jwt_identity()
+        current_user = facade.get_user(current_user_id)
+        if not current_user.is_admin:
             return {'error': 'Admin privileges required'}, 403
 
         user_data = api.payload
@@ -104,10 +105,9 @@ class UserResource(Resource):
         """ Update user specified by id """
         user_data = api.payload
 
-        is_admin_user = False
-        claims = get_jwt()
-        if claims.get('is_admin', True):
-            is_admin_user = True
+        current_user_id = get_jwt_identity()
+        current_user = facade.get_user(current_user_id)
+        is_admin_user = current_user.is_admin
 
         # user may only be updating one or two items and not everything
         wanted_keys_list = []
@@ -121,8 +121,7 @@ class UserResource(Resource):
             if 'email' in user_data or 'password' in user_data:
                 return { 'error': "You cannot modify email or password." }, 400
 
-            current_user = get_jwt_identity()
-            if user_id != current_user['id']:
+            if user_id != current_user_id:
                 return { 'error': "Unauthorized action" }, 403
         else:
             # users are able to update their own details (first_name, last_name)

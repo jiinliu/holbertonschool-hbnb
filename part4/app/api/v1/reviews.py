@@ -1,5 +1,5 @@
 from flask_restx import Namespace, Resource, fields
-from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
+from flask_jwt_extended import jwt_required, get_jwt_identity
 # from app.services.facade import HBnBFacade
 from app.services import facade
 
@@ -26,9 +26,13 @@ class ReviewList(Resource):
         # curl -X POST "http://127.0.0.1:5000/api/v1/reviews/" -H "Content-Type: application/json" -H "Authorization: Bearer <token_goes_here>" -d '{ "text": "Very dirty", "rating": 1, "place_id": "<place_id_goes_here>" }'
 
         """Register a new review"""
-        current_user = get_jwt_identity()
+        current_user_id = get_jwt_identity()
         review_data = api.payload
-        review_data['user_id'] = current_user['id']
+        review_data['user_id'] = current_user_id
+
+        # Debug logging
+        print(f"DEBUG: Current user ID: {current_user_id}")
+        print(f"DEBUG: Review data: {review_data}")
 
         wanted_keys_list = ['text', 'rating', 'place_id']
 
@@ -40,7 +44,7 @@ class ReviewList(Resource):
         place = facade.get_place(str(review_data.get('place_id')))
         if not place:
             return { 'error': "Invalid input data - place does not exist" }, 400
-        if place.owner_id == current_user['id']:
+        if place.owner_id == current_user_id:
             return {'error': 'You cannot review your own place.'}, 400
 
         # check that this particular logged-in user hasn't already reviewed it before
@@ -48,15 +52,20 @@ class ReviewList(Resource):
         # Get ALL reviews, then search through them for user_id and place_id combo
         all_reviews = facade.get_all_reviews()
         for review in all_reviews:
-            if review.user_id == current_user['id'] and review.place_id == review_data['place_id']:
+            if review.user_id == current_user_id and review.place_id == review_data['place_id']:
                 return { 'error': "You have already reviewed this place." }, 400
 
         # finally, create the review
         new_review = None
         try:
+            print(f"DEBUG: About to create review with data: {review_data}")
             new_review = facade.create_review(review_data)
         except ValueError as error:
+            print(f"DEBUG: ValueError in create_review: {error}")
             return { 'error': "Setter validation failure: {}".format(error) }, 400
+        except Exception as error:
+            print(f"DEBUG: Unexpected error in create_review: {error}")
+            return { 'error': "Unexpected error: {}".format(error) }, 500
 
         return {'id': str(new_review.id), 'message': 'Review created successfully'}, 201
 
@@ -105,14 +114,14 @@ class ReviewResource(Resource):
         # curl -X PUT "http://127.0.0.1:5000/api/v1/reviews/<review_id>" -H "Content-Type: application/json" -H "Authorization: Bearer <token_goes_here>" -d '{ "text": "So lovely!", "rating": 5 }'
 
         """Update a review's information"""
-        claims = get_jwt()
-        current_user = get_jwt_identity()
+        current_user_id = get_jwt_identity()
+        current_user = facade.get_user(current_user_id)
 
         # Check that review exists first before updating them
         review = facade.get_review(review_id)
         if not review:
             return {'error': 'Review not found'}, 404
-        if not claims.get('is_admin', True) and review.user_id != current_user['id']:
+        if not current_user.is_admin and review.user_id != current_user_id:
             return { 'error': "Unauthorized action" }, 403
 
         review_data = api.payload
@@ -137,14 +146,14 @@ class ReviewResource(Resource):
         # curl -X DELETE "http://127.0.0.1:5000/api/v1/reviews/<review_id>" -H "Content-Type: application/json" -H "Authorization: Bearer <token_goes_here>"
 
         """Delete a review"""
-        current_user = get_jwt_identity()
+        current_user_id = get_jwt_identity()
 
         # Check that review exists first
         review = facade.get_review(review_id)
         if not review:
             return {'error': 'Review not found'}, 404
 
-        if review.user_id != current_user['id']:
+        if review.user_id != current_user_id:
             return { 'error': "Unauthorized action" }, 403
 
         try:

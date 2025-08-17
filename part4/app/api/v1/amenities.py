@@ -26,8 +26,9 @@ class AmenityList(Resource):
         # curl -X POST "http://127.0.0.1:5000/api/v1/amenities/" -H "Content-Type: application/json" -H "Authorization: Bearer <token_goes_here>" -d '{ "name": "Wi-Fi"}'
 
         """Register a new amenity"""
-        claims = get_jwt()
-        if not claims.get('is_admin', True):
+        current_user_id = get_jwt_identity()
+        current_user = facade.get_user(current_user_id)
+        if not current_user.is_admin:
             return {'error': 'Admin privileges required'}, 403
 
         amenity_data = api.payload
@@ -90,8 +91,9 @@ class AmenityResource(Resource):
     @api.response(404, 'Amenity not found')
     def put(self, amenity_id):
         """Update an amenity's information"""
-        claims = get_jwt()
-        if not claims.get('is_admin', True):
+        current_user_id = get_jwt_identity()
+        current_user = facade.get_user(current_user_id)
+        if not current_user.is_admin:
             return {'error': 'Admin privileges required'}, 403
 
         amenity_data = api.payload

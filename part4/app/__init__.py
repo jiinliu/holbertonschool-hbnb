@@ -28,6 +28,8 @@ def create_app():
     api.add_namespace(protected_ns, path='/api/v1/protected')
 
     app.config['JWT_SECRET_KEY'] = 'your_jwt_secret_key'  # Use a strong and unique key in production
+    app.config['JWT_IDENTITY_CLAIM'] = 'sub'  # Use 'sub' claim for identity
+    app.config['JWT_JSON_IDENTITY_CLAIMS'] = True  # Enable JSON serialization for complex identities
     jwt = JWTManager(app)
 
     return app

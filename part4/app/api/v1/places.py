@@ -61,10 +61,10 @@ class PlaceList(Resource):
 
         """Register a new place"""
         places_data = api.payload
-        current_user = get_jwt_identity()
+        current_user_id = get_jwt_identity()
 
         # adding owner_id back in so that places_data still plays nice with the old code
-        places_data['owner_id'] = current_user['id']
+        places_data['owner_id'] = current_user_id
 
         wanted_keys_list = ['title', 'description', 'price', 'latitude', 'longitude', 'owner_id']
 
@@ -178,13 +178,13 @@ class PlaceResource(Resource):
         # curl -X PUT "http://127.0.0.1:5000/api/v1/places/<place_id>" -H "Content-Type: application/json" -H "Authorization: Bearer <token_goes_here>" -d '{"title": "Not So Cozy Apartment","description": "A terrible place to stay","price": 999.99}'
 
         """Update a place's information"""
-        claims = get_jwt()
-        current_user = get_jwt_identity()
+        current_user_id = get_jwt_identity()
+        current_user = facade.get_user(current_user_id)
 
         place = facade.get_place(place_id)
         if not place:
             return {'error': 'Place not found'}, 404
-        if not claims.get('is_admin', True) and place.owner_id != current_user['id']:
+        if not current_user.is_admin and place.owner_id != current_user_id:
             return {'error': 'Unauthorized action'}, 403
 
         place_data = api.payload
