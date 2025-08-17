@@ -3,23 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Review</title>
+    <title>HBnB - Add Review</title>
+    <link rel="icon" type="image/png" href="images/icon.png">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <img src="images/logo.png" alt="HBnB Logo">
+                <span>HBnB</span>
+            </div>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="login.html" class="login-button" id="login-link">Login</a>
+            </nav>
+        </div>
+    </header>
+    
     <main>
-        <!-- Add something to idfentify the place you're reviewing -->
-        <form id="review-form">
-            <h2>Add a Review</h2>
-            <label for="review">Your Review:</label>
-            <textarea id="review" name="review" required></textarea>
-            <label for="rating">Rating:</label>
-            <select id="rating" name="rating" required>
-                <!-- Options for rating -->
-            </select>
-            <button type="submit">Submit Review</button>
-        </form>
+        <div class="container">
+            <div class="back-navigation">
+                <a href="javascript:history.back()" class="back-button">← Back to Place</a>
+            </div>
+            
+            <div class="add-review-container">
+                <div class="place-summary" id="place-summary">
+                    <h1>Add Your Review</h1>
+                    <div class="reviewing-place">
+                        <h3>You're reviewing:</h3>
+                        <div class="place-info-brief">
+                            <img id="place-thumbnail" src="images/icon.png" alt="Place Image" class="place-thumbnail">
+                            <div class="place-details-brief">
+                                <h4 id="place-name">Cozy Apartment in Downtown</h4>
+                                <p id="place-host">Hosted by <span id="host-name">John Doe</span></p>
+                                <p id="place-price">$<span id="price-amount">150</span> per night</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <form id="review-form" class="form">
+                    <div id="review-success" class="success-message" style="display: none;">
+                        <p>Thank you! Your review has been submitted successfully.</p>
+                    </div>
+                    
+                    <div id="review-error" class="error-message" style="display: none;">
+                        <p>Please fill in all fields and try again.</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="rating">Your Rating:</label>
+                        <select id="rating" name="rating" required>
+                            <option value="">Select a rating</option>
+                            <option value="1">1 Star - Poor</option>
+                            <option value="2">2 Stars - Fair</option>
+                            <option value="3">3 Stars - Good</option>
+                            <option value="4">4 Stars - Very Good</option>
+                            <option value="5">5 Stars - Excellent</option>
+                        </select>
+                        <div class="rating-preview" id="rating-preview">
+                            <span class="stars"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="review">Your Review:</label>
+                        <textarea id="review" name="review" required placeholder="Share your experience about this place... What did you like? What could be improved?" rows="6"></textarea>
+                        <small class="form-help">Please be honest and respectful in your review.</small>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="cancel-button" onclick="history.back()">Cancel</button>
+                        <button type="submit" class="submit-button">
+                            <span class="button-text">Submit Review</span>
+                            <span class="loading-spinner" style="display: none;">Submitting...</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </main>
+    
+    <footer>
+        <div class="footer-container">
+            <p>&copy; 2024 HBnB. All rights reserved.</p>
+        </div>
+    </footer>
+    
     <script src="scripts.js"></script>
 </body>
 </html>

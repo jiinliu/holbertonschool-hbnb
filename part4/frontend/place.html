@@ -3,27 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Place Details</title>
+    <title>HBnB - Place Details</title>
+    <link rel="icon" type="image/png" href="images/icon.png">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <img src="images/logo.png" alt="HBnB Logo">
+                <span>HBnB</span>
+            </div>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="login.html" class="login-button" id="login-link">Login</a>
+            </nav>
+        </div>
+    </header>
+    
     <main>
-        <section id="place-details">
-            <!-- Place details will be populated dynamically -->
-        </section>
-        <section id="reviews">
-            <!-- Reviews will be populated dynamically -->
-        </section>
-        <section id="add-review">
-            <h2>Add a Review</h2>
-            <form id="review-form">
-                <label for="review-text">Review:</label>
-                <textarea id="review-text" name="review-text" required></textarea>
+        <div class="container">
+            <div class="back-navigation">
+                <a href="index.html" class="back-button">← Back to Places</a>
+            </div>
+            
+            <section id="place-details" class="place-details">
+                <!-- Example place details structure - will be populated dynamically -->
+                <div class="place-header">
+                    <h1 id="place-title">Cozy Apartment in Downtown</h1>
+                    <div class="place-rating">
+                        <span class="stars">★★★★☆</span>
+                        <span class="rating-count">(12 reviews)</span>
+                    </div>
+                </div>
                 
-                <button type="submit">Submit</button>
-            </form>
-        </section>
+                <div class="place-image-container">
+                    <img id="place-image" src="images/icon.png" alt="Place Image" class="place-main-image">
+                </div>
+                
+                <div class="place-info">
+                    <div class="place-host">
+                        <h3>Hosted by <span id="host-name">John Doe</span></h3>
+                    </div>
+                    
+                    <div class="place-price-section">
+                        <span class="place-price">$<span id="place-price">150</span> per night</span>
+                    </div>
+                    
+                    <div class="place-description">
+                        <h3>About this place</h3>
+                        <p id="place-description-text">A beautiful and cozy apartment located in the heart of the city. Perfect for couples or solo travelers looking for a comfortable stay.</p>
+                    </div>
+                    
+                    <div class="place-amenities">
+                        <h3>Amenities</h3>
+                        <div id="amenities-list" class="amenities-grid">
+                            <div class="amenity-item">
+                                <img src="images/icon_wifi.png" alt="WiFi" class="amenity-icon">
+                                <span>WiFi</span>
+                            </div>
+                            <div class="amenity-item">
+                                <img src="images/icon_bed.png" alt="Bedrooms" class="amenity-icon">
+                                <span>2 Bedrooms</span>
+                            </div>
+                            <div class="amenity-item">
+                                <img src="images/icon_bath.png" alt="Bathrooms" class="amenity-icon">
+                                <span>1 Bathroom</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="place-location">
+                        <h3>Location</h3>
+                        <p><span id="place-latitude">40.7128</span>, <span id="place-longitude">-74.0060</span></p>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="reviews" class="reviews-section">
+                <h2>Reviews</h2>
+                <div id="reviews-container" class="reviews-container">
+                    <!-- Example review structure - will be populated dynamically -->
+                    <div class="review-card" style="display: none;">
+                        <div class="review-header">
+                            <div class="review-author">
+                                <strong class="author-name">Jane Smith</strong>
+                            </div>
+                            <div class="review-rating">
+                                <span class="stars">★★★★★</span>
+                            </div>
+                        </div>
+                        <div class="review-content">
+                            <p class="review-text">Great place to stay! Clean, comfortable, and excellent location.</p>
+                        </div>
+                        <div class="review-date">
+                            <small>Posted on <span class="review-date-text">2024-01-15</span></small>
+                        </div>
+                    </div>
+                </div>
+                <div id="no-reviews" class="no-reviews" style="display: none;">
+                    <p>No reviews yet. Be the first to review this place!</p>
+                </div>
+            </section>
+            
+            <section id="add-review" class="add-review" style="display: none;">
+                <h2>Add Your Review</h2>
+                <form id="review-form" class="form">
+                    <div id="review-error" class="error-message" style="display: none;">
+                        <p>Please fill in all fields and try again.</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="rating">Your Rating:</label>
+                        <select id="rating" name="rating" required>
+                            <option value="">Select a rating</option>
+                            <option value="1">1 Star - Poor</option>
+                            <option value="2">2 Stars - Fair</option>
+                            <option value="3">3 Stars - Good</option>
+                            <option value="4">4 Stars - Very Good</option>
+                            <option value="5">5 Stars - Excellent</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="review-text">Your Review:</label>
+                        <textarea id="review-text" name="review-text" required placeholder="Share your experience about this place..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-button">Submit Review</button>
+                </form>
+            </section>
+            
+            <div id="review-login-prompt" class="login-prompt">
+                <p>Want to add a review? <a href="login.html" class="login-link">Login here</a></p>
+            </div>
+        </div>
     </main>
+    
+    <footer>
+        <div class="footer-container">
+            <p>&copy; 2024 HBnB. All rights reserved.</p>
+        </div>
+    </footer>
+    
     <script src="scripts.js"></script>
 </body>
 </html>
