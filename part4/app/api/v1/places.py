@@ -153,6 +153,7 @@ class PlaceResource(Resource):
             'id': str(place.id),
             'title': place.title,
             'description': place.description,
+            'price': place.price,
             'latitude': place.latitude,
             'longitude': place.longitude,
             'owner': {
@@ -244,10 +245,24 @@ class PlaceRelations(Resource):
                 return {'error': 'Unable to retrieve Reviews written about this place'}, 404
 
             for review in all_reviews:
+                # Get user information for each review
+                user = review.user_r if review.user_r else None
+                user_info = {
+                    'id': str(user.id),
+                    'first_name': user.first_name,
+                    'last_name': user.last_name
+                } if user else {
+                    'id': 'unknown',
+                    'first_name': 'Unknown',
+                    'last_name': 'User'
+                }
+                
                 output.append({
                     'id': str(review.id),
                     'text': review.text,
-                    'rating': review.rating
+                    'rating': review.rating,
+                    'user_id': review.user_id,
+                    'user': user_info
                 })
 
         # === OWNER ===

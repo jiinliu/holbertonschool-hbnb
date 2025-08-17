@@ -195,6 +195,7 @@ h1 {
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 30px;
     margin-bottom: 40px;
+    align-items: stretch;
 }
 
 .place-card {
@@ -208,6 +209,11 @@ h1 {
     margin: 20px;
     padding: 10px;
     border: 1px solid #ddd;
+    /* Fix height consistency */
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 450px;
 }
 
 .place-card:hover {
@@ -225,6 +231,10 @@ h1 {
 
 .place-info {
     padding: 0 5px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    height: 100%;
 }
 
 .place-name {
@@ -246,6 +256,7 @@ h1 {
     flex-wrap: wrap;
     gap: 10px;
     margin-bottom: 15px;
+    flex-grow: 1;
 }
 
 .amenity {
@@ -274,6 +285,8 @@ h1 {
     font-weight: 600;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    margin-top: auto;
+    align-self: flex-end;
 }
 
 .details-button:hover {
@@ -356,7 +369,7 @@ h1 {
 
 .amenities-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 15px;
 }
 
@@ -518,18 +531,26 @@ h1 {
 .form-actions {
     display: flex;
     gap: 15px;
+    align-items: stretch;
+}
+
+.form-actions .submit-button {
+    flex: 2;
+    width: auto;
+    margin-bottom: 0;
 }
 
 .cancel-button {
     flex: 1;
-    padding: 12px;
+    padding: 15px;
     background-color: #6c757d;
     color: white;
     border: none;
     border-radius: 8px;
-    font-weight: 500;
+    font-weight: 600;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    font-size: 16px;
 }
 
 .cancel-button:hover {

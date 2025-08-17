@@ -428,27 +428,14 @@ function createPlaceCard(place) {
     placeDescription.style.fontSize = '0.9rem';
     placeDescription.style.color = '#666';
     placeDescription.style.marginBottom = '15px';
+    placeDescription.style.flexGrow = '1';
+    placeDescription.style.overflow = 'hidden';
+    placeDescription.style.textOverflow = 'ellipsis';
+    placeDescription.style.display = '-webkit-box';
+    placeDescription.style.webkitLineClamp = '5';
+    placeDescription.style.webkitBoxOrient = 'vertical';
 
-    // Place amenities (if available)
-    const placeAmenities = document.createElement('div');
-    placeAmenities.className = 'place-amenities';
-    
-    // Add some default amenities for now (since API returns empty amenities)
-    const defaultAmenities = [
-        { name: 'WiFi', icon: 'images/icon_wifi.png' },
-        { name: '2 Beds', icon: 'images/icon_bed.png' },
-        { name: '1 Bath', icon: 'images/icon_bath.png' }
-    ];
-    
-    defaultAmenities.forEach(amenity => {
-        const amenitySpan = document.createElement('span');
-        amenitySpan.className = 'amenity';
-        amenitySpan.innerHTML = `
-            <img src="${amenity.icon}" alt="${amenity.name}" class="amenity-icon">
-            ${amenity.name}
-        `;
-        placeAmenities.appendChild(amenitySpan);
-    });
+    // Amenities removed from place cards as requested
 
     // Details button
     const detailsButton = document.createElement('button');
@@ -463,7 +450,6 @@ function createPlaceCard(place) {
     placeInfo.appendChild(placeName);
     placeInfo.appendChild(placePrice);
     placeInfo.appendChild(placeDescription);
-    placeInfo.appendChild(placeAmenities);
     placeInfo.appendChild(detailsButton);
 
     // Assemble the place card
@@ -681,12 +667,65 @@ function displayPlaceDetails(place) {
     if (amenitiesList && place.amenities) {
         amenitiesList.innerHTML = '';
         
+        // Create amenity icon mapping
+        const getAmenityIcon = (amenityName) => {
+            const iconMap = {
+                'WiFi': '📶',
+                'Air Conditioning': '❄️',
+                'Swimming Pool': '🏊‍♀️',
+                'Gym': '🏋️‍♀️',
+                'Parking': '🅿️',
+                'Kitchen': '🍳',
+                'Washing Machine': '🧺',
+                'TV': '📺',
+                'Balcony': '🪴',
+                'Pet Friendly': '🐕',
+                'Smoking Allowed': '🚬',
+                'Fireplace': '🔥',
+                'Pool': '🏊‍♀️',
+                'Ocean View': '🌊',
+                'Beach Access': '🏖️',
+                'Private Beach': '🏖️',
+                'Spa': '💆‍♀️',
+                'Spa Services': '💆‍♀️',
+                'Hot Tub': '🛀',
+                'Sauna': '🧖‍♀️',
+                'Garden': '🌿',
+                'Terrace': '🪴',
+                'Deck': '🪵',
+                'Grill': '🔥',
+                'BBQ': '🔥',
+                'Game Room': '🎮',
+                'Library': '📚',
+                'Office': '💼',
+                'Laundry': '🧺',
+                'Dryer': '🌪️',
+                'Iron': '🔧',
+                'Hair Dryer': '💇‍♀️',
+                'Safe': '🔒',
+                'First Aid Kit': '🩹',
+                'Elevator': '🛗',
+                'Wheelchair Accessible': '♿',
+                'Family Friendly': '👨‍👩‍👧‍👦',
+                'Quiet Area': '🤫',
+                'No Smoking': '🚭',
+                'Adults Only': '🔞',
+                'Private Dock': '⚓',
+                'Yacht Access': '🛥️',
+                'Water Sports Equipment': '🏄‍♀️',
+                'Infinity Pool': '🏊‍♀️',
+                'Personal Chef': '👨‍🍳'
+            };
+            return iconMap[amenityName] || '🏠';
+        };
+        
         if (place.amenities.length > 0) {
             place.amenities.forEach(amenity => {
                 const amenityItem = document.createElement('div');
                 amenityItem.className = 'amenity-item';
+                const icon = getAmenityIcon(amenity.name);
                 amenityItem.innerHTML = `
-                    <img src="images/icon_wifi.png" alt="${amenity.name}" class="amenity-icon">
+                    <span style="font-size: 20px; margin-right: 8px;">${icon}</span>
                     <span>${amenity.name}</span>
                 `;
                 amenitiesList.appendChild(amenityItem);
@@ -694,16 +733,19 @@ function displayPlaceDetails(place) {
         } else {
             // Show default amenities if none from API
             const defaultAmenities = [
-                { name: 'WiFi', icon: 'images/icon_wifi.png' },
-                { name: '2 Bedrooms', icon: 'images/icon_bed.png' },
-                { name: '1 Bathroom', icon: 'images/icon_bath.png' }
+                { name: 'WiFi', emoji: '📶' },
+                { name: 'Ocean View', emoji: '🌊' },
+                { name: 'Private Beach', emoji: '🏖️' },
+                { name: 'Swimming Pool', emoji: '🏊‍♀️' },
+                { name: 'Kitchen', emoji: '🍳' },
+                { name: 'Air Conditioning', emoji: '❄️' }
             ];
             
             defaultAmenities.forEach(amenity => {
                 const amenityItem = document.createElement('div');
                 amenityItem.className = 'amenity-item';
                 amenityItem.innerHTML = `
-                    <img src="${amenity.icon}" alt="${amenity.name}" class="amenity-icon">
+                    <span style="font-size: 20px; margin-right: 8px;">${amenity.emoji}</span>
                     <span>${amenity.name}</span>
                 `;
                 amenitiesList.appendChild(amenityItem);
@@ -720,7 +762,7 @@ function displayPlaceDetails(place) {
  */
 async function fetchPlaceReviews(placeId) {
     try {
-        const response = await fetch(`${API_BASE_URL}/places/${placeId}/reviews`, {
+        const response = await fetch(`${API_BASE_URL}/places/${placeId}/reviews/`, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' }
         });
@@ -753,6 +795,9 @@ function displayPlaceReviews(reviews) {
     // Clear existing reviews
     reviewsContainer.innerHTML = '';
     
+    // Update rating and review count based on actual data
+    updatePlaceRating(reviews);
+    
     if (!reviews || reviews.length === 0) {
         // Show no reviews message
         if (noReviews) {
@@ -776,6 +821,40 @@ function displayPlaceReviews(reviews) {
 }
 
 /**
+ * Update place rating display based on review data
+ * @param {Array} reviews - Array of review objects
+ */
+function updatePlaceRating(reviews) {
+    const starsElement = document.querySelector('.place-rating .stars');
+    const ratingCountElement = document.querySelector('.place-rating .rating-count');
+    
+    if (!starsElement || !ratingCountElement) return;
+    
+    if (!reviews || reviews.length === 0) {
+        // No reviews - show empty stars and no reviews text
+        starsElement.textContent = '☆☆☆☆☆';
+        ratingCountElement.textContent = '(No reviews yet)';
+        return;
+    }
+    
+    // Calculate average rating
+    const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
+    const averageRating = totalRating / reviews.length;
+    const roundedRating = Math.round(averageRating);
+    
+    // Generate stars display
+    const filledStars = '★'.repeat(roundedRating);
+    const emptyStars = '☆'.repeat(5 - roundedRating);
+    const starsDisplay = filledStars + emptyStars;
+    
+    // Update display
+    starsElement.textContent = starsDisplay;
+    ratingCountElement.textContent = `(${reviews.length} review${reviews.length !== 1 ? 's' : ''})`;
+    
+    console.log(`Updated rating: ${averageRating.toFixed(1)}/5 (${reviews.length} reviews)`);
+}
+
+/**
  * Create a review card element
  * @param {Object} review - Review object from API
  * @return {HTMLElement} - Review card element
@@ -787,10 +866,15 @@ function createReviewCard(review) {
     // Generate stars based on rating
     const stars = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
     
+    // Use user information from the API response
+    const authorName = review.user
+        ? `${review.user.first_name} ${review.user.last_name}`.trim()
+        : `User ${review.user_id ? review.user_id.substring(0, 8) : 'Unknown'}`;
+    
     reviewCard.innerHTML = `
         <div class="review-header">
             <div class="review-author">
-                <strong class="author-name">User ${review.user_id}</strong>
+                <strong class="author-name">${authorName}</strong>
             </div>
             <div class="review-rating">
                 <span class="stars">${stars}</span>
@@ -1019,6 +1103,9 @@ async function handleReviewSubmission(event, placeId) {
  */
 async function submitReview(placeId, rating, text) {
     try {
+        console.log('Submitting review with data:', { place_id: placeId, rating, text });
+        console.log('Using headers:', getAuthHeaders());
+        
         const response = await fetch(`${API_BASE_URL}/reviews/`, {
             method: 'POST',
             headers: getAuthHeaders(),
@@ -1029,7 +1116,11 @@ async function submitReview(placeId, rating, text) {
             })
         });
 
+        console.log('Response status:', response.status);
+        console.log('Response headers:', response.headers);
+
         const data = await response.json();
+        console.log('Response data:', data);
 
         if (response.ok) {
             return { success: true, data: data };

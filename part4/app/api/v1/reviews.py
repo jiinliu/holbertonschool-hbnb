@@ -9,7 +9,6 @@ api = Namespace('reviews', description='Review operations')
 review_model = api.model('Review', {
     'text': fields.String(required=True, description='Text of the review'),
     'rating': fields.Integer(required=True, description='Rating of the place (1-5)'),
-    'user_id': fields.String(required=True, description='ID of the user'),
     'place_id': fields.String(required=True, description='ID of the place')
 })
 
@@ -31,10 +30,10 @@ class ReviewList(Resource):
         review_data = api.payload
         review_data['user_id'] = current_user['id']
 
-        wanted_keys_list = ['text', 'rating', 'user_id', 'place_id']
+        wanted_keys_list = ['text', 'rating', 'place_id']
 
         # check that required attributes are present
-        if not all(name in wanted_keys_list for name in review_data):
+        if not all(name in review_data for name in wanted_keys_list):
             return { 'error': "Invalid input data - required attributes missing" }, 400
 
         # check that place exists
@@ -120,7 +119,7 @@ class ReviewResource(Resource):
         wanted_keys_list = ['text', 'rating']
 
         # check that required attributes are present
-        if not all(name in wanted_keys_list for name in review_data):
+        if not all(name in review_data for name in wanted_keys_list):
             return { 'error': "Invalid input data - required attributes missing" }, 400
 
         try:

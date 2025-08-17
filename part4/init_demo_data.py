@@ -88,7 +88,7 @@ def init_demo_data():
     
     amenities_data = [
         {'name': 'WiFi'},
-        {'name': 'Air Conditioning'}, 
+        {'name': 'Air Conditioning'},
         {'name': 'Swimming Pool'},
         {'name': 'Gym'},
         {'name': 'Parking'},
@@ -98,7 +98,15 @@ def init_demo_data():
         {'name': 'Balcony'},
         {'name': 'Pet Friendly'},
         {'name': 'Smoking Allowed'},
-        {'name': 'Fireplace'}
+        {'name': 'Fireplace'},
+        {'name': 'Private Beach'},
+        {'name': 'Yacht Access'},
+        {'name': 'Personal Chef'},
+        {'name': 'Spa Services'},
+        {'name': 'Water Sports Equipment'},
+        {'name': 'Helipad'},
+        {'name': 'Private Dock'},
+        {'name': 'Infinity Pool'}
     ]
     
     created_amenities = {}
@@ -123,7 +131,7 @@ def init_demo_data():
         {
             'title': 'Luxury Beach Villa',
             'description': 'Beautiful oceanfront villa with stunning views and private beach access',
-            'price': 450.0,
+            'price': 95.0,
             'latitude': 25.7617,
             'longitude': -80.1918,
             'owner_email': 'john.doe@hbnb.io',
@@ -132,7 +140,7 @@ def init_demo_data():
         {
             'title': 'Cozy Mountain Cabin',
             'description': 'Rustic cabin perfect for hiking enthusiasts and nature lovers',
-            'price': 180.0,
+            'price': 45.0,
             'latitude': 39.7392,
             'longitude': -104.9903,
             'owner_email': 'jane.smith@hbnb.io',
@@ -141,7 +149,7 @@ def init_demo_data():
         {
             'title': 'Urban Loft Apartment',
             'description': 'Modern loft in the heart of downtown with city skyline views',
-            'price': 275.0,
+            'price': 75.0,
             'latitude': 40.7128,
             'longitude': -74.0060,
             'owner_email': 'bob.wilson@hbnb.io',
@@ -150,11 +158,47 @@ def init_demo_data():
         {
             'title': 'Charming Garden Cottage',
             'description': 'Peaceful cottage surrounded by beautiful gardens and fruit trees',
-            'price': 220.0,
+            'price': 25.0,
             'latitude': 37.7749,
             'longitude': -122.4194,
             'owner_email': 'alice.johnson@hbnb.io',
             'amenities': ['WiFi', 'Kitchen', 'Parking', 'Balcony', 'Pet Friendly']
+        },
+        {
+            'title': 'Dodgy House Special',
+            'description': 'Budget-friendly accommodation! Bring your own mattress, sleeping bag recommended. Shared bathroom down the hall (sometimes works). Perfect for adventurous travelers who love surprises!',
+            'price': 8.0,
+            'latitude': 34.0522,
+            'longitude': -118.2437,
+            'owner_email': 'alice.johnson@hbnb.io',
+            'amenities': ['WiFi', 'Pet Friendly', 'Smoking Allowed']
+        },
+        {
+            'title': 'Presidential Suite Penthouse',
+            'description': 'Ultra-luxury penthouse with panoramic city views, private elevator, butler service, and rooftop helipad. Experience the pinnacle of opulent living.',
+            'price': 899.0,
+            'latitude': 40.7589,
+            'longitude': -73.9851,
+            'owner_email': 'john.doe@hbnb.io',
+            'amenities': ['WiFi', 'Air Conditioning', 'Swimming Pool', 'Gym', 'Kitchen', 'Balcony']
+        },
+        {
+            'title': 'Royal Castle Estate',
+            'description': 'Historic castle with 50+ rooms, private vineyards, horse stables, and medieval banquet hall. Perfect for royalty or those who dream to be.',
+            'price': 1250.0,
+            'latitude': 51.5074,
+            'longitude': -0.1278,
+            'owner_email': 'jane.smith@hbnb.io',
+            'amenities': ['Fireplace', 'Kitchen', 'Parking', 'Pet Friendly', 'Swimming Pool', 'Balcony']
+        },
+        {
+            'title': 'Private Island Paradise',
+            'description': 'Exclusive private island resort with white sandy beaches, crystal clear waters, personal chef, and yacht included. Ultimate luxury escape.',
+            'price': 2500.0,
+            'latitude': 25.0343,
+            'longitude': -77.3963,
+            'owner_email': 'bob.wilson@hbnb.io',
+            'amenities': ['Private Beach', 'Yacht Access', 'Personal Chef', 'Spa Services', 'Water Sports Equipment', 'Infinity Pool', 'WiFi', 'Private Dock']
         }
     ]
     

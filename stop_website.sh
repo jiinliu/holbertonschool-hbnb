@@ -26,6 +26,24 @@ echo "🧹 Cleaning up remaining processes..."
 pkill -f "python run_v4.py" 2>/dev/null || true
 pkill -f "python -m http.server 8080" 2>/dev/null || true
 
+# Force kill processes using the ports if still occupied
+echo "🔍 Checking for processes on ports 5001 and 8080..."
+PORT_5001_PID=$(lsof -ti:5001 2>/dev/null || true)
+PORT_8080_PID=$(lsof -ti:8080 2>/dev/null || true)
+
+if [ ! -z "$PORT_5001_PID" ]; then
+    echo "🔧 Force killing process on port 5001..."
+    kill -9 $PORT_5001_PID 2>/dev/null || true
+fi
+
+if [ ! -z "$PORT_8080_PID" ]; then
+    echo "🌐 Force killing process on port 8080..."
+    kill -9 $PORT_8080_PID 2>/dev/null || true
+fi
+
+# Wait for ports to be freed
+sleep 2
+
 # Ask if user wants to stop database
 echo ""
 read -p "❓ Stop database too? (data will NOT be lost) [y/N]: " -n 1 -r
